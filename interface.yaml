@@ -1,0 +1,4 @@
+name: syslog
+summary: Interface Flume Syslog and Syslog
+version: 1
+maintainer: "Big Data Team <bigdata@lists.ubuntu.com>"
