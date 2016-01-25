@@ -20,8 +20,11 @@ class FlumeSyslogProvides(RelationBase):
     scope = scopes.GLOBAL
     relation_name = 'syslog'
 
-    # Use some template magic to declare our relation(s)
-    @hook('{provides:syslog}-relation-{joined,changed}')
+    @hook('{provides:syslog}-relation-{joined}')
+    def changed(self):
+        self.set_state('{relation_name}.related')
+
+    @hook('{provides:syslog}-relation-{changed}')
     def changed(self):
         self.set_state('{relation_name}.available')
 
@@ -30,7 +33,7 @@ class FlumeSyslogProvides(RelationBase):
         self.remove_state('{relation_name}.available')
 
     # call this method when passed into methods decorated with
-    # @when('{relation}.available')
+    # @when('{relation}.related')
     # to configure the relation data
     def send_port(self, port):
         conv = self.conversation()
