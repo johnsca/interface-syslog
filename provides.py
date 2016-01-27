@@ -21,7 +21,7 @@ class FlumeSyslogProvides(RelationBase):
     relation_name = 'syslog'
 
     @hook('{provides:syslog}-relation-{joined}')
-    def changed(self):
+    def joined(self):
         self.set_state('{relation_name}.related')
 
     @hook('{provides:syslog}-relation-{changed}')
