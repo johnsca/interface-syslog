@@ -14,6 +14,7 @@ from charms.reactive import RelationBase
 from charms.reactive import hook
 from charms.reactive import scopes
 
+
 # TODO(kt):  Not implemented yet
 class FlumeSyslogRequires(RelationBase):
     scope = scopes.UNIT
@@ -28,7 +29,7 @@ class FlumeSyslogRequires(RelationBase):
         conv = self.conversation()
         conv.set_state('{relation_name}.available')
 
-    @hook('{requires:syslog}-relation-{departed,broken}')
+    @hook('{requires:syslog}-relation-{departed}')
     def departed(self):
         conv = self.conversation()
         conv.remove_state('{relation_name}.connected')

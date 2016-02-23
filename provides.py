@@ -28,7 +28,7 @@ class FlumeSyslogProvides(RelationBase):
     def changed(self):
         self.set_state('{relation_name}.available')
 
-    @hook('{provides:syslog}-relation-{broken,departed}')
+    @hook('{provides:syslog}-relation-{departed}')
     def broken(self):
         self.remove_state('{relation_name}.available')
 
@@ -37,6 +37,6 @@ class FlumeSyslogProvides(RelationBase):
     # to configure the relation data
     def send_port(self, port):
         conv = self.conversation()
-        conv.set_remote(data = {
+        conv.set_remote(data={
             'port': port,
         })
