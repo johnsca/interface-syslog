@@ -15,28 +15,13 @@ from charms.reactive import hook
 from charms.reactive import scopes
 
 
-class FlumeSyslogProvides(RelationBase):
-    # Every unit connecting will get the same information
+class SyslogProvides(RelationBase):
     scope = scopes.GLOBAL
-    relation_name = 'syslog'
 
-    @hook('{provides:syslog}-relation-{joined}')
+    @hook('{provides:syslog}-relation-joined')
     def joined(self):
-        self.set_state('{relation_name}.related')
+        self.set_state('{relation_name}.joined')
 
-    @hook('{provides:syslog}-relation-{changed}')
-    def changed(self):
-        self.set_state('{relation_name}.available')
-
-    @hook('{provides:syslog}-relation-{departed}')
+    @hook('{provides:syslog}-relation-departed')
     def broken(self):
-        self.remove_state('{relation_name}.available')
-
-    # call this method when passed into methods decorated with
-    # @when('{relation}.related')
-    # to configure the relation data
-    def send_port(self, port):
-        conv = self.conversation()
-        conv.set_remote(data={
-            'port': port,
-        })
+        self.remove_state('{relation_name}.joined')

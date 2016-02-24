@@ -15,30 +15,18 @@ from charms.reactive import hook
 from charms.reactive import scopes
 
 
-# TODO(kt):  Not implemented yet
-class FlumeSyslogRequires(RelationBase):
+class SyslogRequires(RelationBase):
     scope = scopes.UNIT
 
     @hook('{requires:syslog}-relation-joined')
     def joined(self):
         conv = self.conversation()
-        conv.set_state('{relation_name}.connected')
+        conv.set_state('{relation_name}.joined')
 
-    @hook('{requires:syslog}-relation-changed')
-    def changed(self):
-        conv = self.conversation()
-        conv.set_state('{relation_name}.available')
-
-    @hook('{requires:syslog}-relation-{departed}')
+    @hook('{requires:syslog}-relation-departed')
     def departed(self):
         conv = self.conversation()
-        conv.remove_state('{relation_name}.connected')
-        conv.remove_state('{relation_name}.available')
+        conv.remove_state('{relation_name}.joined')
 
-    def get_flume_ip(self):
-        conv = self.conversation()
-        conv.get_remote('private-address')
-
-    def get_flume_port(self):
-        conv = self.conversation()
-        conv.get_remote('port')
+    def hosts(self):
+        return [c.get_remote('private-address') for c in self.conversations()]
