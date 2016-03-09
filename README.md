@@ -13,6 +13,7 @@ This interface layer will set the following states, as appropriate:
 
   * `{relation_name}.joined`   The relation to a syslog producer has been initialized.
 
+    * `nodes()`   You can get the number of syslog clients.
 
 ## Requires
 
