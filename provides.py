@@ -16,7 +16,7 @@ from charms.reactive import scopes
 
 
 class SyslogProvides(RelationBase):
-    scope = scopes.GLOBAL
+    scope = scopes.UNIT
 
     @hook('{provides:syslog}-relation-joined')
     def joined(self):
@@ -25,3 +25,6 @@ class SyslogProvides(RelationBase):
     @hook('{provides:syslog}-relation-departed')
     def broken(self):
         self.remove_state('{relation_name}.joined')
+
+    def nodes(self):
+        return len(self.conversations())
