@@ -26,5 +26,5 @@ class SyslogProvides(RelationBase):
     def broken(self):
         self.remove_state('{relation_name}.joined')
 
-    def nodes(self):
+    def client_count(self):
         return len(self.conversations())
